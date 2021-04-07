@@ -281,15 +281,87 @@
 ### _Функции высших порядков_ ###
 <a name="фЗадача-2"></a>
 ### _Задача 2_ ###  
+Определите функицонал (MAPLIST fn список) для одного списочного аргумента.
+### _Решение_ ###
+````common-lisp
+(defun increase (lst)
+    (cond ((null lst) nil)
+        (t (cons (* (car lst) (car lst)) (increase (cdr lst))))))
+        
+(defun my-maplist (lst f) 
+    (cond ((null lst) nil)
+        (t (cons (funcall f lst) (my-maplist (cdr lst) f)))))
+        
+(print (my-maplist '(1 2 3 4 5) 'increase))
+````
 <a name="фЗадача-4"></a> 
 ### _Задача 4_ ###
+Определите функциональный предикат (КАЖДЫЙ пред список), который истинен в том и только в том случае, когда, являющийся функциональным аргументом предикат пред истинен для всех элементов списка список.
+### _Решение_ ###
+````common-lisp
+(defun is-negative (x)
+    (cond ((>= x 0) nil)
+        (t t)))
+        
+(defun every-is-true (lst f) 
+    (cond ((null lst) t)
+        ((funcall f (car lst))  (every-is-true (cdr lst) f))
+        (t nil)))
+        
+(print (every-is-true '(-1 -2 -3 -4 -5) 'is-negative))
+(print (every-is-true '(1 -2 -3 -4 -5) 'is-negative))
+````
 <a name="фЗадача-6"></a> 
 ### _Задача 6_ ###
+Определите фильтр (УДАЛИТЬ-ЕСЛИ пред список), удаляющий из списка список все элементы, которые обладают свойством, наличие которого проверяет предикат пред.
+### _Решение_ ###
+````common-lisp
+(defun is-negative (x)
+    (cond ((>= x 0) nil)
+        (t t)))
+        
+(defun delete-if-true (lst f) 
+    (cond ((null lst) nil)
+        ((funcall f (car lst)) (delete-if-true (cdr lst) f))
+        (t (cons (car lst) (delete-if-true (cdr lst) f)))))
+        
+(print (delete-if-true '(-1 -2 -3 -4 -5) 'is-negative))
+(print (delete-if-true '(1 2 3 -4 -5) 'is-negative))
+````
 <a name="фЗадача-8"></a> 
 ### _Задача 8_ ###
+Напишите генератор натуральных чисел: 0, 1, 2, 3, 4, 5, ...
+### _Решение_ ###
+````common-lisp
+(defun make-natural-numbers-counter ()
+    (let ( (x 0) )
+        (lambda () (setq x (+ x 1)))
+    )
+)
+ 
+(setq c1 (make-natural-numbers-counter))
+
+(defun natural-numbers-generator (n) 
+    (cond ((/= n 0) 
+        (print (funcall c1)) (natural-numbers-generator (- n 1)))))
+        
+(print (natural-numbers-generator 8))
+````
 <a name="фЗадача-10"></a> 
 ### _Задача 10_ ###
+Напишите генератор, порождающий последовательность (A), (B A), (A B A), (B A B A), ...
+### _Решение_ ###
+````common-lisp
+````
 <a name="фЗадача-12"></a> 
 ### _Задача 12_ ###
+Определите функцию, которая возвращает в качестве значения свой вызов
+### _Решение_ ###
+````common-lisp
+````
 <a name="фЗадача-14"></a> 
 ### _Задача 14_ ###
+Определите функцию, которая возвращает в качестве значения форму своего определения (DEFUN).
+### _Решение_ ###
+````common-lisp
+````
