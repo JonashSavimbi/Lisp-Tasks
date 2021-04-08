@@ -350,6 +350,23 @@
 Напишите генератор, порождающий последовательность (A), (B A), (A B A), (B A B A), ...
 ### _Решение_ ###
 ````common-lisp
+(defun lst-generator ()
+    (let ( (lst nil)  )
+        (lambda () 
+            (cond ((eq (car lst) 'a) (setq lst (cons 'b lst)))
+                (t (setq lst (cons 'a lst)))
+            )
+        )
+    )
+)
+ 
+(setq c1 (lst-generator))
+
+(defun natural-numbers-generator (n) 
+    (cond ((/= n 1) (funcall c1) (natural-numbers-generator (- n 1)))
+        (t (funcall c1))))
+        
+(print (natural-numbers-generator 8))
 ````
 <a name="фЗадача-12"></a> 
 ### _Задача 12_ ###
