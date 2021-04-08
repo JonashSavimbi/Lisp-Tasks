@@ -231,18 +231,15 @@
 Определите функцию, находящую максимальное из значений, находящихся в вершинах дерева. 
 ### _Решение_ ###
 ````common-lisp
-(defun tree-max-val (maximum lst) 
+(defun tree-max-val (lst &optional(maximum (car lst))) 
     (cond ((null lst) maximum)
         ((atom (car lst)) 
             (cond ((> (car lst) maximum) 
-                (tree-max-val (car lst) (cdr lst)))
-            (t (tree-max-val maximum (cdr lst)))))
-        (t (tree-max-val (tree-max-val maximum (car lst)) (cdr lst)))))
-
-(defun max-val (lst) 
-    (tree-max-val (car lst) lst))
+                (tree-max-val (cdr lst) (car lst)))
+            (t (tree-max-val (cdr lst) maximum))))
+        (t (tree-max-val (cdr lst) (tree-max-val (car lst)  maximum)))))
         
-(print (max-val '(52 (2 (1 3 4 58) 41 (2 (2 6))))))
+(print (tree-max-val '(52 (2 (1 3 4 58) 41 (2 (2 6))))))
 ````
 Определим функцию `tree-max-val`, которой передадим число и список. Функция будет сравнивать заданное число с элементами списка (вершинами дерева) и искать максимум среди них.  
 С помощью `cond` проверим, является ли список пустым. Если да, то дерево пройдено, значит возвращаем найденный максимум.  
