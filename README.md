@@ -256,23 +256,15 @@
 (setf (get 'annie 'sex) 'female)
 (setf (get 'annie 'children) 3)
 
-(defun check-property (proplist property) 
+(defun check-property (symbol property &optional(proplist (symbol-plist symbol))) 
     (cond ((null proplist) "THERE IS NO SUCH PROPERTY")
         ((string= property (car proplist)) "PROPERTY EXISTS")
-        (t (check-property (cddr proplist) property))))
+        (t (check-property symbol property (cddr proplist)))))
 
-(defun has-property (symbol property) 
-    (check-property (symbol-plist symbol) property))
     
-(print (has-property 'annie 'husband))
-(print (has-property 'annie 'age))
+(print (check-property 'annie 'husband))
+(print (check-property 'annie 'age))
 ````
-Определяем вспомогательную функцию `check-property`, в которую передаются список свойств и свойство, которое нужно проверить. Эта функция будет проверять, содержится ли указанное свойство в указанном списке свойств.  
-С помощью `cond` проверяем, является ли список пустым.  
-Если да, то данного свойства в списке нет, значит возвращаем "THERE IS NO SUCH PROPERTY". 
-Если нет, то проверяем, равно ли значение головы списка свойств с указанным свойством. Если равно, то свойство есть в списке свойств, значит возвращаем "PROPERTY EXISTS".  
-Если условие выше не выполняется, то рекурсивно вызываем функцию `check-property` для хвоста хвоста указанного списка свойств (в списке свойств сразу же после свойства идет его значение, поэтому один элемент можно пропустить).  
-Далее объявляется функция `has-property`, которой передается символ и свойство, которое нужно проверить. В теле функции запускается вспомогательная функция `check-property` для списка свойств `symbol-plist` указанного `symbol` и указанного свойства `property`.
 ### _Функции высших порядков_ ###
 <a name="фЗадача-2"></a>
 ### _Задача 2_ ###  
