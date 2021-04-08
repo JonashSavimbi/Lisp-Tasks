@@ -218,15 +218,13 @@
 Реализовать  генератор деревьев, чтобы выдаваемые им деревья   имели количество вершин, точно соответствующее числу, указанному в его первом аргументе.
 ### _Решение_ ###
 ````common-lisp
-(defun tree (m n) 
-    (cond ((= m (+ n 1)) nil)
-        ((= m 1) (list m (tree (+ m 1) n)))
-        (t (cons m (tree (+ m 1) n)))))
+(defun tree (n &optional(m 1)) 
+    (cond 
+        ((= m (+ n 1)) nil)
+        ((= m 1) (list m (tree n (+ m 1))))
+        (t (cons m (tree n (+ m 1))))))
         
-(defun tree-generator (n) 
-    (tree 1 n))
-        
-(print (tree-generator 8))
+(print (tree 8))
 ````
 <a name="Задача-42"></a> 
 ### _Задача 42_ ###
